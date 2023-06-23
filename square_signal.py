@@ -34,35 +34,37 @@ def loop_sig(n):
     ncols = 1  # number of columns
     index = 0  # index of row
 
-    a = 1
-    w = 0.5
+    a = 1  # amplitude
 
     x = np.linspace(0, 5 * (2 * np.pi), num=1000)
 
     sin_signal = a * np.sin(x)
 
     index += 1
-    plt.subplot(nrows,ncols,index)
-    plt.title("sin signal")
+    s_title = "sin signal"
+    plt.subplot(nrows, ncols, index)
+    plt.title(s_title)
     plt.plot(x, sin_signal)
 
-    square_signal = a * signal.square(sin_signal, w)
+    duty = 0.5  # duty cycle
+    square_signal = a * signal.square(sin_signal, duty)
 
     index += 1
-    plt.subplot(nrows,ncols,index)
-    plt.title("square signal")
+    s_title = "square signal, duty={duty_val}".format(duty_val=duty)
+    plt.subplot(nrows, ncols, index)
+    plt.title(s_title)
     plt.plot(x, square_signal)
 
     square_signal_fourier_series = []
     for m in range(0, n):
-        one_element = 4 * a / ((2 * m + 1) * np.pi) * np.sin((2 * m + 1) * 2 * w * x)
+        one_element = 4 * a / ((2 * m + 1) * np.pi) * np.sin((2 * m + 1) * x)
         square_signal_fourier_series.append(one_element.tolist())
         sum = np.sum(square_signal_fourier_series, axis=0)
         square_signal_fourier_series = [sum.tolist()]
 
     index += 1
-    s_title = "square signal composed by fourier series (n={n_val})".format(n_val=n)
-    plt.subplot(nrows,ncols,index)
+    s_title = "square signal composed by fourier series, n={n_val}".format(n_val=n)
+    plt.subplot(nrows, ncols, index)
     plt.title(s_title)
     plt.plot(x, square_signal_fourier_series[-1])
 
